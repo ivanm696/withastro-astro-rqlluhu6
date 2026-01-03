@@ -1,0 +1,85 @@
+---
+const videos = [
+  {
+    id: 1,
+    username: '@user1',
+    description: 'Check out this amazing video! #trending',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-girl-in-neon-sign-1232-large.mp4',
+    likes: '120.5K',
+    comments: '1.2K',
+    shares: '3.4K'
+  },
+  {
+    id: 2,
+    username: '@user2',
+    description: 'Beautiful sunset vibes 🌅 #nature',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-tree-with-yellow-flowers-1173-large.mp4',
+    likes: '89.3K',
+    comments: '856',
+    shares: '2.1K'
+  }
+];
+---
+
+<div class="h-screen w-full bg-black">
+  <div class="snap-y snap-mandatory h-full overflow-scroll">
+    {videos.map(video => (
+      <div class="snap-start h-screen w-full relative flex items-center justify-center">
+        <video 
+          class="absolute h-full w-full object-cover"
+          src={video.videoUrl}
+          loop
+          muted
+          playsinline
+        />
+        <div class="absolute bottom-0 left-0 p-4 text-white z-10 w-full">
+          <div class="flex justify-between items-end">
+            <div class="flex-1">
+              <p class="font-bold text-lg">{video.username}</p>
+              <p class="text-sm">{video.description}</p>
+            </div>
+            <div class="flex flex-col items-center gap-4">
+              <button class="flex flex-col items-center">
+                <div class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center">
+                  ❤️
+                </div>
+                <span class="text-xs mt-1">{video.likes}</span>
+              </button>
+              <button class="flex flex-col items-center">
+                <div class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center">
+                  💬
+                </div>
+                <span class="text-xs mt-1">{video.comments}</span>
+              </button>
+              <button class="flex flex-col items-center">
+                <div class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center">
+                  ↗️
+                </div>
+                <span class="text-xs mt-1">{video.shares}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('video').forEach(video => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            video.play();
+          } else {
+            video.pause();
+          }
+        });
+      },
+      { threshold: 0.6 }
+    );
+    
+    observer.observe(video);
+  });
+</script>
